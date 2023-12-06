@@ -1,10 +1,6 @@
 # Edge TPU Object Tracker Example
 
-This repo contains a collection of examples that use camera streams
-together with the [TensorFlow Lite API](https://tensorflow.org/lite) with a
-Coral device such as the
-[USB Accelerator](https://coral.withgoogle.com/products/accelerator) or
-[Dev Board](https://coral.withgoogle.com/products/dev-board) and provides an Object tracker for use with the detected objects.
+This repo contains an edited version of [Google Coral Tracking Demo](https://github.com/google-coral/example-object-tracker) to present the number of people in a frame. Utilizes [PySimpleGUI](https://www.pysimplegui.org/en/latest/) and 
 
 
 ## Installation
@@ -22,9 +18,9 @@ Coral device such as the
     ```
     mkdir google-coral && cd google-coral
 
-    git clone https://github.com/google-coral/example-object-tracker.git
+    git clone https://github.com/disisid17/Person-tracker.git
 
-    cd example-object-tracker/
+    cd Person-tracker/
     ```
 
 3.  Download the models:
