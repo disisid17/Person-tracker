@@ -32,7 +32,7 @@ python3 detect.py \
   --model ${TEST_DATA}/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite \
   --labels ${TEST_DATA}/coco_labels.txt
 """
-import gradio as gr
+
 import argparse
 import collections
 import common
