@@ -15,6 +15,8 @@
 import sys
 import svgwrite
 import threading
+import PySimpleGUI as sg
+
 from tracker import ObjectTracker
 
 import gi
@@ -25,7 +27,18 @@ from gi.repository import GLib, GObject, Gst, GstBase, Gtk
 
 GObject.threads_init()
 Gst.init(None)
-
+sg.theme("DarkTeal")
+layout  = [[sg.Text(font=('Comic Sans MS',40),pad = (50,(10,60)),text="# of people",text_color="green")],
+           [sg.Text(font=('Arial Bold',32),justification = 'center',pad = (0,(0,60)),key="-OUTPUT-",expand_x=True)]
+          ]
+window = sg.Window('TPURead',layout)
+def call(counter):
+    event, values = window.read(timeout=1)
+    if event in (sg.WIN_CLOSED,None):
+        window.close()
+        return True
+    window['-OUTPUT-'].update(counter)
+    return False
 class GstPipeline:
     def __init__(self, pipeline, user_function, src_size, mot_tracker):
         self.user_function = user_function
@@ -39,6 +52,8 @@ class GstPipeline:
         self.pipeline = Gst.parse_launch(pipeline)
         self.overlay = self.pipeline.get_by_name('overlay')
         self.overlaysink = self.pipeline.get_by_name('overlaysink')
+        self.sgv = ""
+        self.psco = 0
         appsink = self.pipeline.get_by_name('appsink')
         appsink.connect('new-sample', self.on_new_sample)
 
@@ -113,27 +128,32 @@ class GstPipeline:
         return self.box
 
     def inference_loop(self):
+        #gr.Interface(fn = lambda:x+"",inputs = 'text',outputs = "text").launch()
         while True:
             with self.condition:
                 while not self.gstbuffer and self.running:
                     self.condition.wait()
                 if not self.running:
                     break
+                   # pass
                 gstbuffer = self.gstbuffer
                 self.gstbuffer = None
-
             # Passing Gst.Buffer as input tensor avoids 2 copies of it:
             # * Python bindings copies the data when mapping gstbuffer
             # * Numpy copies the data when creating ndarray.
             # This requires a recent version of the python3-edgetpu package. If this
             # raises an exception please make sure dependencies are up to date.
             input_tensor = gstbuffer
-            svg = self.user_function(input_tensor, self.src_size, self.get_box(), self.mot_tracker)
+            svg,count= self.user_function(input_tensor,self.src_size, self.get_box(), self.mot_tracker)
+            if call(count):
+                break
             if svg:
                 if self.overlay:
                     self.overlay.set_property('data', svg)
                 if self.overlaysink:
                     self.overlaysink.set_property('svg', svg)
+            #return cont
+                
 
     def setup_window(self):
         # Only set up our own window if we have Coral overlay sink in the pipeline.
