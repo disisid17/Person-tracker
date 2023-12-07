@@ -13,7 +13,10 @@ This repo contains an edited version of [Google Coral Tracking Demo](https://git
     (as per the [Python quickstart](
     https://www.tensorflow.org/lite/guide/python)).
 
-2.  Clone this Git repo onto your computer:
+2. Install python libraries:
+ ```pip install pysimplegui ```
+
+3.  Clone this Git repo onto your computer:
 
     ```
     mkdir google-coral && cd google-coral
@@ -23,7 +26,7 @@ This repo contains an edited version of [Google Coral Tracking Demo](https://git
     cd Person-tracker/
     ```
 
-3.  Download the models:
+4.  Download the models:
 
     ```
     sh download_models.sh
