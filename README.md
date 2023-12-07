@@ -1,6 +1,6 @@
 # Edge TPU Object Tracker Example
 
-This repo contains an edited version of [Google Coral Tracking Demo](https://github.com/google-coral/example-object-tracker) to present the number of people in a frame. Utilizes [PySimpleGUI](https://www.pysimplegui.org/en/latest/) and
+This repo contains an edited version of [Google Coral Tracking Demo](https://github.com/google-coral/example-object-tracker) to present the number of people in a frame. Utilizes [PySimpleGUI](https://www.pysimplegui.org/en/latest/) for pop-up window.
 
 
 ## Installation
